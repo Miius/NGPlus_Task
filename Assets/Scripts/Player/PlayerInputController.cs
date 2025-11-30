@@ -13,7 +13,7 @@ public class PlayerInputController : MonoBehaviour
     private Rigidbody rb;
 
     private Vector2 moveInput;
-    private bool isRunning; // somente registra se shift tá pressionado
+    private bool isRunning;
 
     private void Awake()
     {
@@ -28,7 +28,6 @@ public class PlayerInputController : MonoBehaviour
         HandleAnimations();
     }
 
-    // === INPUT ===
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -39,7 +38,6 @@ public class PlayerInputController : MonoBehaviour
         isRunning = value.isPressed;
     }
 
-    // === MOVEMENT ===
     private void HandleMovement()
     {
         Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -50,7 +48,6 @@ public class PlayerInputController : MonoBehaviour
         rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
     }
 
-    // === ROTATION ===
     private void HandleRotation()
     {
         if (moveInput.sqrMagnitude <= 0.01f) return;
@@ -65,7 +62,6 @@ public class PlayerInputController : MonoBehaviour
         );
     }
 
-    // === ANIMS ===
     private void HandleAnimations()
     {
         float mag = moveInput.magnitude;
