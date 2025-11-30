@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Basket
   icon: {fileID: 21300000, guid: a6d63308540e5dd4c86b663ee7764c65, type: 3}
-  description: Basket
+  description: The Basket. Take me to the base of the catapult. There's a giant yellow
+    arrow pointing there.
   type: 0
-  pickupObject: {fileID: 0}

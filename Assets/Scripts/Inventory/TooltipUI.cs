@@ -4,39 +4,52 @@ using TMPro;
 
 public class TooltipUI : MonoBehaviour
 {
-    #region Singleton
     private static TooltipUI instance;
     public static TooltipUI Instance => instance ? instance : FindFirstObjectByType<TooltipUI>();
-    #endregion
 
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private TMP_Text itemDescriptionText;
+    [SerializeField] private GameObject tooltipObj;
 
     private RectTransform rectTransform;
-    [SerializeField] GameObject tooltipImg;
+
+    private bool isVisible = false;
 
     private void Awake()
     {
-        rectTransform = tooltipImg.GetComponent<RectTransform>();
+        rectTransform = tooltipObj.GetComponent<RectTransform>();
+
+        var img = tooltipObj.GetComponent<UnityEngine.UI.Image>();
+        if (img != null) img.raycastTarget = false;
+
         Hide();
     }
 
     private void Update()
     {
+        if (!isVisible) return;
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        rectTransform.position = mousePos;
+        Vector2 tooltipXPos = new Vector2(mousePos.x, rectTransform.position.y);
+        rectTransform.position = tooltipXPos;
     }
 
     public void Show(ItemData item)
     {
+        if (isVisible) return;
+
         itemNameText.text = item.name;
         itemDescriptionText.text = item.description;
 
-        tooltipImg.SetActive(true);
+        tooltipObj.SetActive(true);
+        isVisible = true;
     }
 
     public void Hide()
     {
-        tooltipImg.SetActive(false);
+        if (!isVisible) return; 
+
+        tooltipObj.SetActive(false);
+        isVisible = false;
     }
 }

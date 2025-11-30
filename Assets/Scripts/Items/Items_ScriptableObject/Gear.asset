@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Gear
   icon: {fileID: 21300000, guid: f0bf79f7b2f95f6498e32df95a90f2dd, type: 3}
-  description: Gear
+  description: One Gear. Take me to the base of the catapult. There's a giant yellow
+    arrow pointing there.
   type: 0
-  pickupObject: {fileID: 0}

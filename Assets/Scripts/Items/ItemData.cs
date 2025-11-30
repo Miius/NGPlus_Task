@@ -12,5 +12,4 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public string description = "";
     public ItemType type;
-    public GameObject pickupObject;
 }

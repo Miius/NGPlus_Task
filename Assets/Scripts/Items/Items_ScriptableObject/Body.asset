@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Body
   icon: {fileID: 21300000, guid: 6146cb5663d32d24b855194d0cf042af, type: 3}
-  description: Body
+  description: The Body. Take me to the base of the catapult. There's a giant yellow
+    arrow pointing there.
   type: 0
-  pickupObject: {fileID: 0}

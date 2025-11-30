@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Trunk
   icon: {fileID: 21300000, guid: 18f4c6c5f451f4047ba9c6585955f841, type: 3}
-  description: Trunk
+  description: The Trunk. Take me to the base of the catapult. There's a giant yellow
+    arrow pointing there.
   type: 0
-  pickupObject: {fileID: 0}

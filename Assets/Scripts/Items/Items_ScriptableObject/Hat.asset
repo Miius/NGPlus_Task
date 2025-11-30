@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18475ccecff5be642b49b4daec68e2fb, type: 3}
-  m_Name: Arm
+  m_Name: Hat
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  name: Arm
-  icon: {fileID: 21300000, guid: e47f5cec45d721c4aa833fe281e58787, type: 3}
-  description: The arm. Take me to the base of the catapult. There's a giant yellow
-    arrow pointing there.
-  type: 0
+  name: Hat
+  icon: {fileID: 21300000, guid: e69faf459eddd4e419745c5deac39945, type: 3}
+  description: 'It''s just a Hat. Click Q to Use '
+  type: 1

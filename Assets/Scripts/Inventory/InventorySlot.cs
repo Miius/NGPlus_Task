@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
@@ -12,6 +11,7 @@ public class InventorySlot : MonoBehaviour,
     [SerializeField] private Image icon;
 
     private Transform originalParent;
+    private bool pointerInside = false;
 
     public void SetItem(ItemData item)
     {
@@ -34,6 +34,9 @@ public class InventorySlot : MonoBehaviour,
     {
         if (currentItem == null) return;
 
+        TooltipUI.Instance.Hide();
+        pointerInside = false;
+
         originalParent = transform;
         icon.transform.SetParent(transform.root);
         icon.raycastTarget = false;
@@ -55,8 +58,7 @@ public class InventorySlot : MonoBehaviour,
 
         if (eventData.pointerEnter != null)
         {
-            InventorySlot otherSlot = eventData.pointerEnter.GetComponent<InventorySlot>();
-
+            var otherSlot = eventData.pointerEnter.GetComponent<InventorySlot>();
             if (otherSlot != null && otherSlot != this)
                 SwapItems(otherSlot);
         }
@@ -68,19 +70,25 @@ public class InventorySlot : MonoBehaviour,
         other.SetItem(this.currentItem);
 
         if (temp == null)
-            this.Clear();
+            Clear();
         else
-            this.SetItem(temp);
+            SetItem(temp);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-       // if (currentItem == null) return;
-        //TooltipUI.Instance.Show(currentItem);
+        if (currentItem == null) return;
+        if (pointerInside) return;
+
+        pointerInside = true;
+        TooltipUI.Instance.Show(currentItem);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-       // TooltipUI.Instance.Hide();
+        if (!pointerInside) return;
+
+        pointerInside = false;
+        TooltipUI.Instance.Hide();
     }
 }

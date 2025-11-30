@@ -9,16 +9,26 @@ public class PlayerInteractionsController : MonoBehaviour
     private bool hasACollidingItem = false;
     private ItemPickup currentItem;
 
+    [SerializeField] GameObject hatObject;
+
+    private void Update()
+    {
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+            TryUseConsumable();
+    }
 
     public void OnInteract(InputValue value)
     {
         if (hasACollidingItem)
         {
             bool hasInventorySpace = InventoryController.Instance.CheckInventoryCapacity();
-            if(!hasInventorySpace){
+
+            if (!hasInventorySpace)
+            {
                 ClearItemData();
                 return;
-            } 
+            }
+
             InventoryController.Instance.AddItem(currentItem.ItemData);
             Destroy(currentItem.gameObject);
             ClearItemData();
@@ -27,26 +37,40 @@ public class PlayerInteractionsController : MonoBehaviour
 
         if (isNearReceiver)
         {
-            var items = InventoryController.Instance.GetItems();
-            receiverNearby.ReceiveItems(items);
+            var allItems = InventoryController.Instance.GetItems();
 
-            InventoryController.Instance.ClearInventory();
+            var interactiveItems = allItems.FindAll(
+                i => i.type == ItemData.ItemType.InteractiveItem
+            );
+
+            receiverNearby.ReceiveItems(interactiveItems);
+
+            InventoryController.Instance.RemoveSpecificItems(interactiveItems);
         }
+    }
+
+    void TryUseConsumable()
+    {
+        ItemData consumable = InventoryController.Instance.GetFirstConsumable();
+        if (consumable == null) return;
+
+       hatObject.SetActive(true);
+
+        InventoryController.Instance.RemoveItem(consumable);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<ItemPickup>(out ItemPickup itemPickup))
+        if (other.TryGetComponent<ItemPickup>(out ItemPickup itemPickup))
         {
             hasACollidingItem = true;
             currentItem = itemPickup;
         }
 
-        if(other.TryGetComponent<ItemReceiver>(out ItemReceiver receiver))
+        if (other.TryGetComponent<ItemReceiver>(out ItemReceiver receiver))
         {
             isNearReceiver = true;
             receiverNearby = receiver;
-
         }
     }
 
@@ -55,13 +79,12 @@ public class PlayerInteractionsController : MonoBehaviour
         if (other.TryGetComponent<ItemPickup>(out ItemPickup _))
             ClearItemData();
 
-        if(other.TryGetComponent<ItemReceiver>(out ItemReceiver _))
+        if (other.TryGetComponent<ItemReceiver>(out ItemReceiver _))
         {
             isNearReceiver = false;
             receiverNearby = null;
         }
     }
-
 
     void ClearItemData()
     {
