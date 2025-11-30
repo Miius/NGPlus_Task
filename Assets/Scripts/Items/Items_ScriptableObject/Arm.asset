@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Arm
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Arm
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e47f5cec45d721c4aa833fe281e58787, type: 3}
   description: Arm
   type: 0
   pickupObject: {fileID: 0}

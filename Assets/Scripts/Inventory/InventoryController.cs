@@ -43,4 +43,11 @@ public void RemoveItem(ItemData itemToRemove)
     {
         return items;
     }
+
+    public void ClearInventory()
+{
+    items.Clear();
+    usedSlotCount = 0;
+    inventoryUI.RefreshUI();
+}
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class TooltipUI : MonoBehaviour
@@ -12,16 +13,18 @@ public class TooltipUI : MonoBehaviour
     [SerializeField] private TMP_Text itemDescriptionText;
 
     private RectTransform rectTransform;
+    [SerializeField] GameObject tooltipImg;
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
+        rectTransform = tooltipImg.GetComponent<RectTransform>();
         Hide();
     }
 
     private void Update()
     {
-        rectTransform.position = Input.mousePosition;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        rectTransform.position = mousePos;
     }
 
     public void Show(ItemData item)
@@ -29,11 +32,11 @@ public class TooltipUI : MonoBehaviour
         itemNameText.text = item.name;
         itemDescriptionText.text = item.description;
 
-        gameObject.SetActive(true);
+        tooltipImg.SetActive(true);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        tooltipImg.SetActive(false);
     }
 }

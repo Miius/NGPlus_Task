@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Body
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Body
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6146cb5663d32d24b855194d0cf042af, type: 3}
   description: Body
   type: 0
   pickupObject: {fileID: 0}

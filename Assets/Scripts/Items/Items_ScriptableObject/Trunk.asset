@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Trunk
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Trunk
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 18f4c6c5f451f4047ba9c6585955f841, type: 3}
   description: Trunk
   type: 0
   pickupObject: {fileID: 0}

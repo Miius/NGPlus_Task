@@ -7,3 +7,10 @@ ShaderImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 208063
+  packageName: 'Interactive Guide: Cross-Platform UI'
+  packageVersion: 1.0.6
+  assetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+  uploadId: 468177

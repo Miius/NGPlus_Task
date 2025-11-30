@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-
-public class InventorySlot :  MonoBehaviour,
+public class InventorySlot : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler,
     IPointerEnterHandler, IPointerExitHandler
 {
@@ -34,21 +34,23 @@ public class InventorySlot :  MonoBehaviour,
     {
         if (currentItem == null) return;
 
-        originalParent = transform.parent;
-        transform.SetParent(transform.root);
+        originalParent = transform;
+        icon.transform.SetParent(transform.root);
         icon.raycastTarget = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (currentItem == null) return;
-        transform.position = Input.mousePosition;
+
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        icon.transform.position = mousePos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.SetParent(originalParent);
-        transform.localPosition = Vector3.zero;
+        icon.transform.SetParent(originalParent);
+        icon.transform.localPosition = Vector3.zero;
         icon.raycastTarget = true;
 
         if (eventData.pointerEnter != null)
@@ -73,12 +75,12 @@ public class InventorySlot :  MonoBehaviour,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (currentItem == null) return;
-        TooltipUI.Instance.Show(currentItem);
+       // if (currentItem == null) return;
+        //TooltipUI.Instance.Show(currentItem);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TooltipUI.Instance.Hide();
+       // TooltipUI.Instance.Hide();
     }
 }

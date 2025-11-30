@@ -6,3 +6,10 @@ TextScriptImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 208063
+  packageName: 'Interactive Guide: Cross-Platform UI'
+  packageVersion: 1.0.6
+  assetPath: Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
+  uploadId: 468177

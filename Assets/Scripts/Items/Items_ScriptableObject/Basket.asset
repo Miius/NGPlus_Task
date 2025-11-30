@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Basket
   m_EditorClassIdentifier: Assembly-CSharp::Item
   name: Basket
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a6d63308540e5dd4c86b663ee7764c65, type: 3}
   description: Basket
   type: 0
   pickupObject: {fileID: 0}
