@@ -13,18 +13,29 @@ public class InventorySlot : MonoBehaviour,
     private Transform originalParent;
     private bool pointerInside = false;
 
+    private void Start()
+    {
+        if (icon != null) icon.raycastTarget = false;
+    }
+
     public void SetItem(ItemData item)
     {
         currentItem = item;
-        icon.sprite = item.icon;
-        icon.enabled = true;
+        if (icon != null)
+        {
+            icon.sprite = item.icon;
+            icon.enabled = true;
+        }
     }
 
     public void Clear()
     {
         currentItem = null;
-        icon.sprite = null;
-        icon.enabled = false;
+        if (icon != null)
+        {
+            icon.sprite = null;
+            icon.enabled = false;
+        }
     }
 
     public ItemData GetItem() => currentItem;
@@ -38,8 +49,11 @@ public class InventorySlot : MonoBehaviour,
         pointerInside = false;
 
         originalParent = transform;
-        icon.transform.SetParent(transform.root);
-        icon.raycastTarget = false;
+        if (icon != null)
+        {
+            icon.transform.SetParent(transform.root);
+            icon.raycastTarget = false;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -47,14 +61,17 @@ public class InventorySlot : MonoBehaviour,
         if (currentItem == null) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        icon.transform.position = mousePos;
+        if (icon != null) icon.transform.position = mousePos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        icon.transform.SetParent(originalParent);
-        icon.transform.localPosition = Vector3.zero;
-        icon.raycastTarget = true;
+        if (icon != null)
+        {
+            icon.transform.SetParent(originalParent);
+            icon.transform.localPosition = Vector3.zero;
+            icon.raycastTarget = false;
+        }
 
         if (eventData.pointerEnter != null)
         {

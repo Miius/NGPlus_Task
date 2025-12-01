@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
@@ -8,11 +8,34 @@ public class InventoryController : MonoBehaviour
     public static InventoryController Instance => instance ? instance : FindFirstObjectByType<InventoryController>();
     #endregion
 
-    [SerializeField] InventoryUI inventoryUI;
-    [SerializeField] int inventoryMaxCapacity = 6;
+    [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private int inventoryMaxCapacity = 6;
 
     private int usedSlotCount = 0;
     private List<ItemData> items = new List<ItemData>();
+
+    private void Start()
+    {
+        LoadFromSave();
+        inventoryUI.RefreshUI();
+    }
+
+    private void LoadFromSave()
+    {
+        items.Clear();
+        usedSlotCount = 0;
+        var saved = SaveManager.Instance.GetSavedInventory();
+
+        foreach (var itemName in saved)
+        {
+            ItemData data = Resources.Load<ItemData>("Items/" + itemName);
+            if (data != null)
+            {
+                items.Add(data);
+                usedSlotCount++;
+            }
+        }
+    }
 
     public bool CheckInventoryCapacity()
     {
@@ -21,9 +44,10 @@ public class InventoryController : MonoBehaviour
 
     public void AddItem(ItemData itemToAdd)
     {
-        if (!CheckInventoryCapacity()) return;
+        if (!CheckInventoryCapacity() || itemToAdd == null) return;
 
         items.Add(itemToAdd);
+        SaveManager.Instance.AddInventoryItem(itemToAdd.name);
         usedSlotCount++;
 
         inventoryUI.RefreshUI();
@@ -31,10 +55,13 @@ public class InventoryController : MonoBehaviour
 
     public void RemoveItem(ItemData itemToRemove)
     {
+        if (itemToRemove == null) return;
+
         if (items.Contains(itemToRemove))
         {
             items.Remove(itemToRemove);
             usedSlotCount--;
+            SaveManager.Instance.RemoveInventoryItem(itemToRemove.name);
             inventoryUI.RefreshUI();
         }
     }
@@ -47,9 +74,9 @@ public class InventoryController : MonoBehaviour
             {
                 items.Remove(item);
                 usedSlotCount--;
+                SaveManager.Instance.RemoveInventoryItem(item.name);
             }
         }
-
         inventoryUI.RefreshUI();
     }
 
@@ -67,6 +94,7 @@ public class InventoryController : MonoBehaviour
     {
         items.Clear();
         usedSlotCount = 0;
+        SaveManager.Instance.ClearInventorySave();
         inventoryUI.RefreshUI();
     }
 }

@@ -9,7 +9,7 @@ public class PlayerInteractionsController : MonoBehaviour
     private bool hasACollidingItem = false;
     private ItemPickup currentItem;
 
-    [SerializeField] GameObject hatObject;
+    [SerializeField] private GameObject hatObject;
 
     private void Update()
     {
@@ -19,33 +19,33 @@ public class PlayerInteractionsController : MonoBehaviour
 
     public void OnInteract(InputValue value)
     {
-        if (hasACollidingItem)
+        // pegar item no chão
+        if (hasACollidingItem && currentItem != null)
         {
-            bool hasInventorySpace = InventoryController.Instance.CheckInventoryCapacity();
-
-            if (!hasInventorySpace)
+            if (!InventoryController.Instance.CheckInventoryCapacity())
             {
                 ClearItemData();
                 return;
             }
 
             InventoryController.Instance.AddItem(currentItem.ItemData);
+            currentItem.Collect(); // marca no save
             Destroy(currentItem.gameObject);
             ClearItemData();
             return;
         }
 
-        if (isNearReceiver)
+        // entregar itens ao receiver (apenas non-consumable)
+        if (isNearReceiver && receiverNearby != null)
         {
             var allItems = InventoryController.Instance.GetItems();
+            var interactiveItems = allItems.FindAll(i => i.type == ItemData.ItemType.InteractiveItem);
 
-            var interactiveItems = allItems.FindAll(
-                i => i.type == ItemData.ItemType.InteractiveItem
-            );
-
-            receiverNearby.ReceiveItems(interactiveItems);
-
-            InventoryController.Instance.RemoveSpecificItems(interactiveItems);
+            if (interactiveItems.Count > 0)
+            {
+                receiverNearby.ReceiveItems(interactiveItems);
+                InventoryController.Instance.RemoveSpecificItems(interactiveItems);
+            }
         }
     }
 
@@ -54,8 +54,9 @@ public class PlayerInteractionsController : MonoBehaviour
         ItemData consumable = InventoryController.Instance.GetFirstConsumable();
         if (consumable == null) return;
 
-       hatObject.SetActive(true);
+        if (hatObject != null) hatObject.SetActive(true);
 
+        SaveManager.Instance.ConsumeItem(consumable.name);
         InventoryController.Instance.RemoveItem(consumable);
     }
 

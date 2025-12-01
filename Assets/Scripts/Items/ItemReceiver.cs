@@ -1,20 +1,29 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ItemReceiver : MonoBehaviour
 {
-    [SerializeField] int itemsCountToMakeCatapult = 9;
-    int itemsCount = 0;
+    [SerializeField] private int itemsCountToMakeCatapult = 9;
+    private int itemsCount = 0;
 
-    [SerializeField] GameObject allItems;
+    [SerializeField] private GameObject allItems;
+
+    private void Start()
+    {
+        itemsCount = SaveManager.Instance != null ? SaveManager.Instance.GetReceiverCount() : 0;
+
+        if (allItems != null)
+            allItems.SetActive(itemsCount >= itemsCountToMakeCatapult);
+    }
+
     public void ReceiveItems(List<ItemData> items)
     {
-        foreach (var item in items)
-        {
-           itemsCount++;
-        }
+        itemsCount += items.Count;
 
-        if(itemsCount >= itemsCountToMakeCatapult)
+        if (allItems != null && itemsCount >= itemsCountToMakeCatapult)
             allItems.SetActive(true);
+
+        if (SaveManager.Instance != null)
+            SaveManager.Instance.AddReceiverCount(items.Count);
     }
 }

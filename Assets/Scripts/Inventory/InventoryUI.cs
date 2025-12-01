@@ -1,9 +1,9 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-     [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
+    [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
 
     private void Start()
     {
