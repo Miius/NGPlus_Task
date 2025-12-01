@@ -5,19 +5,19 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
 
-    private void Start()
+    private void OnEnable()
     {
         RefreshUI();
     }
 
     public void RefreshUI()
     {
-        var items = InventoryController.Instance.GetItems();
+        var inv = InventoryController.Instance.GetItems();
 
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i < items.Count)
-                slots[i].SetItem(items[i]);
+            if (i < inv.Count)
+                slots[i].SetItem(inv[i]);
             else
                 slots[i].Clear();
         }

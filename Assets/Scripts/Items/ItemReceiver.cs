@@ -21,7 +21,10 @@ public class ItemReceiver : MonoBehaviour
         itemsCount += items.Count;
 
         if (allItems != null && itemsCount >= itemsCountToMakeCatapult)
-            allItems.SetActive(true);
+          {  allItems.SetActive(true);
+
+          UIManager.Instance.ShowGameOver();
+          }
 
         if (SaveManager.Instance != null)
             SaveManager.Instance.AddReceiverCount(items.Count);

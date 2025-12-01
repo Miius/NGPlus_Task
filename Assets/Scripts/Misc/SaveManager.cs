@@ -14,10 +14,10 @@ public class SaveManager : MonoBehaviour
     [Serializable]
     public class SaveData
     {
-        [HideInInspector]public List<string> collectedItems = new List<string>();
-        [HideInInspector]public List<string> inventoryItems = new List<string>();
-        [HideInInspector]public List<string> consumedItems = new List<string>();
-        [HideInInspector]public int receiverCount = 0; 
+        public List<string> collectedItems = new List<string>();
+        public List<string> inventoryItems = new List<string>();
+        public List<string> consumedItems = new List<string>();
+        public int receiverCount = 0;
     }
 
     public SaveData Data = new SaveData();
@@ -25,20 +25,14 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        savePath = Application.persistentDataPath + "/save.json";
+        savePath = Path.Combine(Application.persistentDataPath, "save.json");
         LoadGame();
-        DontDestroyOnLoad(this.gameObject);
     }
+
     public void SaveGame()
     {
-        try
-        {
-            string json = JsonUtility.ToJson(Data, true);
-            File.WriteAllText(savePath, json);
-            Debug.Log("Save: " + savePath);
-        }
-        catch (Exception e)
-        {}  
+        string json = JsonUtility.ToJson(Data, true);
+        File.WriteAllText(savePath, json);
     }
 
     public void LoadGame()
@@ -49,61 +43,48 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
-        try
-        {
-            string json = File.ReadAllText(savePath);
-            Data = JsonUtility.FromJson<SaveData>(json) ?? new SaveData();
-        }
-        catch (Exception e)
-        {
-            Data = new SaveData();
-        }
+        string json = File.ReadAllText(savePath);
+        Data = JsonUtility.FromJson<SaveData>(json) ?? new SaveData();
     }
+
     public void DeleteSaveAndReloadScene()
     {
-        if (File.Exists(savePath))
-            File.Delete(savePath);
-
+        if (File.Exists(savePath)) File.Delete(savePath);
         Data = new SaveData();
         Scene current = SceneManager.GetActiveScene();
         SceneManager.LoadScene(current.buildIndex);
     }
-    public bool IsItemCollected(string id)
-    {
-        return Data.collectedItems.Contains(id);
-    }
+
+    public bool IsItemCollected(string id) => Data.collectedItems.Contains(id);
+
     public void CollectSceneItem(string id)
     {
-        if (!Data.collectedItems.Contains(id))
-            Data.collectedItems.Add(id);
-
+        if (!Data.collectedItems.Contains(id)) Data.collectedItems.Add(id);
         SaveGame();
     }
-    public List<string> GetSavedInventory()
-    {
-        return Data.inventoryItems;
-    }
+
+    public List<string> GetSavedInventory() => Data.inventoryItems;
+
     public void AddInventoryItem(string itemName)
     {
         Data.inventoryItems.Add(itemName);
         SaveGame();
     }
+
     public void RemoveInventoryItem(string itemName)
     {
-        if (Data.inventoryItems.Contains(itemName))
-            Data.inventoryItems.Remove(itemName);
-
+        if (Data.inventoryItems.Contains(itemName)) Data.inventoryItems.Remove(itemName);
         SaveGame();
     }
+
     public void ClearInventorySave()
     {
         Data.inventoryItems.Clear();
         SaveGame();
     }
-    public int GetReceiverCount()
-    {
-        return Data.receiverCount;
-    }
+
+    public int GetReceiverCount() => Data.receiverCount;
+
     public void AddReceiverCount(int amount = 1)
     {
         Data.receiverCount += amount;
@@ -112,13 +93,9 @@ public class SaveManager : MonoBehaviour
 
     public void ConsumeItem(string itemName)
     {
-        if (!Data.consumedItems.Contains(itemName))
-            Data.consumedItems.Add(itemName);
-
+        if (!Data.consumedItems.Contains(itemName)) Data.consumedItems.Add(itemName);
         SaveGame();
     }
-    public bool IsConsumed(string itemName)
-    {
-        return Data.consumedItems.Contains(itemName);
-    }
+
+    public bool IsConsumed(string itemName) => Data.consumedItems.Contains(itemName);
 }

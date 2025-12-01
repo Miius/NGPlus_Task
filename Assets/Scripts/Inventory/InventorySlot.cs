@@ -15,22 +15,30 @@ public class InventorySlot : MonoBehaviour,
 
     private void Start()
     {
-        if (icon != null) icon.raycastTarget = false;
+        if (icon != null)
+            icon.raycastTarget = false;
     }
 
     public void SetItem(ItemData item)
     {
         currentItem = item;
-        if (icon != null)
+
+        if (icon == null) return;
+
+        if (item == null)
         {
-            icon.sprite = item.icon;
-            icon.enabled = true;
+            Clear();
+            return;
         }
+
+        icon.enabled = true;
+        icon.sprite = item.icon;
     }
 
     public void Clear()
     {
         currentItem = null;
+
         if (icon != null)
         {
             icon.sprite = null;
@@ -49,6 +57,7 @@ public class InventorySlot : MonoBehaviour,
         pointerInside = false;
 
         originalParent = transform;
+
         if (icon != null)
         {
             icon.transform.SetParent(transform.root);
@@ -61,11 +70,14 @@ public class InventorySlot : MonoBehaviour,
         if (currentItem == null) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        if (icon != null) icon.transform.position = mousePos;
+        if (icon != null)
+            icon.transform.position = mousePos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (currentItem == null) return;
+
         if (icon != null)
         {
             icon.transform.SetParent(originalParent);
@@ -84,12 +96,9 @@ public class InventorySlot : MonoBehaviour,
     private void SwapItems(InventorySlot other)
     {
         ItemData temp = other.currentItem;
-        other.SetItem(this.currentItem);
 
-        if (temp == null)
-            Clear();
-        else
-            SetItem(temp);
+        other.SetItem(currentItem);
+        SetItem(temp);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

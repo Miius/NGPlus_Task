@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c47ade46b0a8d854cb8520c37a9b4765, type: 3}
+  m_Name: Tutorial_1
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialTexts
+  text: "<b>Move: </b>WASD \n<b>Pick up items:</b> walk into them and press <b>E</b>
+    \n<b>Use consumable items:</b> press <b>Q</b>\n<b>Deliver items to the catapult
+    base:</b> walk up to it and press <b>E</b>\n\nHope you enjoy <3"

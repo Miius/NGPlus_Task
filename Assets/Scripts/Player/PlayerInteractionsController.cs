@@ -11,6 +11,13 @@ public class PlayerInteractionsController : MonoBehaviour
 
     [SerializeField] private GameObject hatObject;
 
+    void OnEnable()
+    {
+        if (SaveManager.Instance != null)
+        {
+            hatObject.SetActive(SaveManager.Instance.IsConsumed("Hat"));
+        }
+    }
     private void Update()
     {
         if (Keyboard.current.qKey.wasPressedThisFrame)
