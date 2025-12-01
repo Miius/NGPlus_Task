@@ -73,4 +73,9 @@ void DisableAllPanels()
            DisableAllPanels();
        SaveManager.Instance.DeleteSaveAndReloadScene();
     }
+
+     public void CloseGame()
+    {
+        Application.Quit();
+    }
 }
